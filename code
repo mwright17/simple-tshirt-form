@@ -1,0 +1,54 @@
+<?php
+if(isset($_POST['submit'])){
+	$numshirt=$_POST['numofshirt'];
+	$size=$_POST['size'];
+	$inputmoney=$_POST['inputmoney'];
+	$email=$_POST['email'];
+
+
+	if($size="small"){
+		$price=10;
+	}else if($size="medium"){
+		$price=13;
+	}else if($size="large"){
+		$price=16;
+	} 
+	$cost=$numshirt*$price;
+	$change=$inputmoney-$cost;
+	$sentence="Number of T-shirt:$numshirt \r\n Size of T- shirt:$size \r\n T-Shirt cost: $cost \r\n Change: $change";
+
+
+	
+	$subject= "Order Total";
+
+
+	if(mail($email, $subject , $sentence) ==1){
+		echo "success";
+	}
+	displayForm($numshirt,$inputmoney,$email,$sentence);
+}else{
+	displayForm("","","","");
+
+}
+
+
+function displayForm($numshirt,$inputmoney,$email,$sentence){?>
+	<form action='m1c1part2_wright.php' method="POST">
+	Number of T-Shirt<input type="text" name="numofshirt" value="<?php echo$numshirt;?>"/><br>
+	T-Shirt Size<select name="size">
+	<option value="small">small</option>
+	<option value="medium">medium</option>
+	<option value="large">large</option>
+	</option>
+	</select><br>
+	Input Money<input type="text" name="inputmoney" value="<?php echo$inputmoney;?>"/><br>	
+	Email Address<input type="text" name="email" value="<?php echo$email;?>"/><br>
+	<input type="submit" name="submit" value="Place Order"/>
+	</form>
+Order Summary<br>
+<textarea rows='7' cols'45'><?php echo $sentence; ?></textarea>
+</body>
+</html>
+<?php
+}
+?>
